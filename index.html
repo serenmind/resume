@@ -121,6 +121,9 @@
       transition: background 180ms, transform 180ms, box-shadow 180ms;
       cursor: pointer;
       border: none;
+      position: relative;
+      z-index: 1;
+      text-decoration: none;
     }
 
     .btn-brand {
@@ -596,6 +599,7 @@
       padding: clamp(72px, 9vw, 100px) 0;
       background: linear-gradient(135deg, #1a2b3c 0%, #243447 100%);
       color: var(--white);
+      scroll-margin-top: 72px;
     }
 
     .cta-grid {
@@ -641,6 +645,17 @@
       background: var(--brand);
       border-color: var(--brand);
       transform: translateX(6px);
+    }
+
+    .cta-section .btn-brand {
+      pointer-events: auto;
+      z-index: 2;
+    }
+
+    .cta-link,
+    .cta-section .btn-brand {
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
     }
 
     /* Footer */
@@ -727,7 +742,7 @@
             Your ecosystem for secure APIs, workflow automation, and modern web platforms — built with Python, Django, FastAPI, Vue.js, Docker, and AWS.
           </p>
           <div class="hero-actions">
-            <a class="btn btn-brand" href="mailto:khumrazpun@gmail.com">Start a conversation</a>
+            <a class="btn btn-brand" href="#contact">Start a conversation</a>
             <a class="btn btn-outline" href="./khum_resume_25_eng.pdf">Download resume</a>
             <a class="btn btn-text" href="https://www.linkedin.com/in/khum-raj-pun-2686984a" target="_blank" rel="noreferrer">LinkedIn profile →</a>
           </div>
@@ -797,7 +812,7 @@
           </article>
         </div>
         <div class="feature-actions">
-          <a class="btn btn-brand" href="mailto:khumrazpun@gmail.com">Discuss a project</a>
+          <a class="btn btn-brand" href="#contact">Discuss a project</a>
           <a class="btn btn-text" href="#experience">View experience →</a>
         </div>
       </div>
@@ -972,10 +987,10 @@
           <p class="feature-kicker" style="color:#6ee7b7">Contact</p>
           <h2>Let's build reliable automation together.</h2>
           <p>Available for software engineering, AI automation, API integration, and workflow modernization. Based in Erkrath, North Rhine-Westphalia, Germany.</p>
-          <a class="btn btn-brand" href="mailto:khumrazpun@gmail.com">Email me directly</a>
+          <a class="btn btn-brand" id="email-direct" href="mailto:khumrazpun@gmail.com?subject=Portfolio%20inquiry">Email me directly</a>
         </div>
         <div class="cta-links">
-          <a class="cta-link" href="mailto:khumrazpun@gmail.com">
+          <a class="cta-link" id="email-address" href="mailto:khumrazpun@gmail.com?subject=Portfolio%20inquiry">
             <span>khumrazpun@gmail.com</span>
             <span>→</span>
           </a>
@@ -1012,6 +1027,26 @@
       link.addEventListener("click", () => {
         menu.classList.remove("open");
         toggle.setAttribute("aria-expanded", "false");
+      });
+    });
+
+    // Reliable mailto — works when plain href fails (e.g. embedded preview, no mail app)
+    const EMAIL = "khumrazpun@gmail.com";
+    const mailtoHref = `mailto:${EMAIL}?subject=${encodeURIComponent("Portfolio inquiry")}`;
+
+    function openEmailClient(href) {
+      const link = document.createElement("a");
+      link.href = href;
+      link.rel = "noopener";
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    }
+
+    document.querySelectorAll('a[href^="mailto:"]').forEach((anchor) => {
+      anchor.addEventListener("click", (event) => {
+        event.preventDefault();
+        openEmailClient(anchor.getAttribute("href") || mailtoHref);
       });
     });
   </script>
